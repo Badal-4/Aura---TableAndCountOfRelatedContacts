@@ -1,0 +1,23 @@
+({
+    getAccountContactWrapperhelper : function(component,event,helper)
+    {
+        var a = component.get("v.recordId");
+        console.log('RecordId=--->'+a);
+        //call apex method
+        var action = component.get("c.getAccountWithContacts");
+        action.setParams({
+            accountId : '0015g00000m1aRDAAY'
+        });
+        action.setCallback(this,function(response)
+        {
+            var state = response.getState();
+            var result = response.getReturnValue();
+            console.log('Return Result-->'+JSON.stringify(result));
+            if(state === "SUCCESS")
+            {
+                component.set("v.accountContactWrapper",result);
+            }
+        });
+        $A.enqueueAction(action);
+    }
+})
